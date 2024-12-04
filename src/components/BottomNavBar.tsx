@@ -40,15 +40,6 @@ const BottomNavBar = ({ activeTab, setActiveTab }: { activeTab: string; setActiv
           전체
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setActiveTab("Settings")} className="items-center">
-        <Text
-          className={`text-sm ${
-            activeTab === "Settings" ? "text-black font-bold" : "text-gray-400"
-          }`}
-        >
-          설정
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
