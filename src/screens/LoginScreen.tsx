@@ -1,7 +1,7 @@
-import React from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import React from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-const LoginScreen = ({onLogin}: {onLogin: () => void}) => {
+const LoginScreen = ({ onLogin }: { onLogin: () => void }) => {
   return (
     <View className="flex-1 justify-center items-center bg-background px-6">
       {/* 로고 */}
@@ -26,7 +26,8 @@ const LoginScreen = ({onLogin}: {onLogin: () => void}) => {
       {/* 로그인 버튼 */}
       <TouchableOpacity
         className="w-full h-12 bg-primary rounded-lg justify-center items-center"
-        onPress={onLogin}>
+        onPress={onLogin}
+      >
         <Text className="text-background text-lg font-bold">로그인</Text>
       </TouchableOpacity>
 
