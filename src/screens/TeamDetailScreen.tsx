@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Modal } from "react-native";
 
 type TeamDataItem = {
   id: string;
@@ -38,6 +38,25 @@ const TeamDetailScreen = ({ detail, setActiveTab }: TeamDetailScreenProps) => {
       tags: ["Python", "Django"],
     },
   ];
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selfIntroduction, setSelfIntroduction] = useState('');
+  const [hasApplied, setHasApplied] = useState(false);    // 신청 여부 상태
+
+  const handleApply = () => {
+    console.log({
+      username: "dummyUser",
+      selfIntroduction,
+    });
+    setIsModalVisible(false);
+    setHasApplied(true);
+    setActiveTab("Team");
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
 
   return (
     <View className="flex-1 bg-gray-100">
@@ -84,7 +103,9 @@ const TeamDetailScreen = ({ detail, setActiveTab }: TeamDetailScreenProps) => {
             <Text className="text-gray-700 text-base">마감 기한: {detail.deadline}</Text>
           </View>
           {/* 신청하기 버튼 */}
-          <TouchableOpacity className="bg-blue-500 px-4 py-2 rounded-lg mt-4">
+          <TouchableOpacity className="bg-blue-500 px-4 py-2 rounded-lg mt-4"
+            onPress={() => !hasApplied && setIsModalVisible(true)}
+            disabled={hasApplied}>
             <Text className="text-white text-center font-bold text-sm">신청하기</Text>
           </TouchableOpacity>
         </View>
@@ -151,6 +172,36 @@ const TeamDetailScreen = ({ detail, setActiveTab }: TeamDetailScreenProps) => {
           <Text className="text-gray-500">전체</Text>
         </TouchableOpacity>
       </View>
+
+      {/* 모달 */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={isModalVisible}
+        onRequestClose={handleCancel}
+      >
+        <View className="bg-gray-300 bg-opacity-50 flex-1 justify-center items-center">
+          <View className="bg-white p-6 rounded-lg w-4/5">
+            <Text className="text-xl font-bold mb-4">간단한 자기소개</Text>
+            <TextInput
+              className="bg-gray-200 p-4 rounded-lg mb-4"
+              placeholder="자기소개를 입력하세요"
+              value={selfIntroduction}
+              onChangeText={setSelfIntroduction}
+              multiline
+              numberOfLines={4}
+            />
+            <View className="flex-row justify-between">
+              <TouchableOpacity onPress={handleCancel} className="bg-gray-300 px-4 py-2 rounded-lg">
+                <Text className="text-gray-700">취소</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleApply} className="bg-blue-500 px-4 py-2 rounded-lg">
+                <Text className="text-white">신청</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

@@ -35,7 +35,7 @@ export default function App() {
     }
 
     if (activeTab === "TeamRecruit") {
-      return <TeamRecruitScreen setActiveTab={setActiveTab} />; // 팀원 모집 작성 화면
+      return <TeamRecruitScreen setActiveTab={setActiveTab} />;
     }
 
     switch (activeTab) {
