@@ -7,6 +7,7 @@ import StatsScreen from "./screens/StatsScreen";
 import AllPostsScreen from "./screens/AllPostsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import TeamDetailScreen from "./screens/TeamDetailScreen";
+import TeamRecruitScreen from "./screens/TeamRecruitScreen";
 import BottomNavBar from "./components/BottomNavBar";
 
 type TeamDataItem = {
@@ -31,6 +32,10 @@ export default function App() {
           setActiveTab={setActiveTab}
         />
       );
+    }
+
+    if (activeTab === "TeamRecruit") {
+      return <TeamRecruitScreen setActiveTab={setActiveTab} />; // 팀원 모집 작성 화면
     }
 
     switch (activeTab) {

@@ -120,8 +120,11 @@ const TeamScreen = ({
       {/* 헤더 */}
       <View className="flex-row justify-between items-center px-4 mt-4 mb-6">
         <Text className="text-primary text-2xl font-bold">팀원 찾기</Text>
-        <TouchableOpacity className="bg-primary px-4 py-2 rounded-lg">
-          <Text className="text-white text-sm">팀원 모집</Text>
+        <TouchableOpacity
+          onPress={() => setActiveTab("TeamRecruit")}
+          className="bg-primary px-4 py-2 rounded-lg"
+        >
+          <Text className="text-white text-center">팀원 모집</Text>
         </TouchableOpacity>
       </View>
 
