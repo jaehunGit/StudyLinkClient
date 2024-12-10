@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const dummyTags = [
   "React",
@@ -33,11 +34,10 @@ const MyPageScreen = ({
   const [nickname, setNickname] = useState("정재훈");
   const [email, setEmail] = useState("ghty6323@gmail.com");
   const [password, setPassword] = useState("");
-  const [tags, setTags] = useState(["React", "Node.js", "Java"]); // 기존 태그
-  const [currentTag, setCurrentTag] = useState(""); // 현재 입력 중인 태그
-  const [filteredTags, setFilteredTags] = useState<string[]>(dummyTags); // 자동완성 태그
+  const [tags, setTags] = useState(["React", "Node.js", "Java"]);
+  const [currentTag, setCurrentTag] = useState("");
+  const [filteredTags, setFilteredTags] = useState<string[]>(dummyTags);
 
-  // 태그 추가
   const addTag = (tag: string) => {
     if (tag.trim() !== "" && !tags.includes(tag)) {
       setTags([...tags, tag.trim()]);
@@ -46,13 +46,11 @@ const MyPageScreen = ({
     setFilteredTags(dummyTags.filter((t) => !tags.includes(t)));
   };
 
-  // 태그 제거
   const removeTag = (tag: string) => {
     setTags(tags.filter((t) => t !== tag));
     setFilteredTags(dummyTags.filter((t) => !tags.includes(t)));
   };
 
-  // 태그 입력 변화
   const handleTagInputChange = (text: string) => {
     setCurrentTag(text);
     if (text.trim() !== "") {
@@ -65,6 +63,23 @@ const MyPageScreen = ({
     } else {
       setFilteredTags(dummyTags.filter((t) => !tags.includes(t)));
     }
+  };
+
+  const handleImageChange = () => {
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        maxWidth: 300,
+        maxHeight: 300,
+        quality: 0.8,
+      },
+      (response) => {
+        if (response.assets && response.assets.length > 0) {
+          const selectedImage = response.assets[0].uri;
+          setProfileImage(selectedImage || null);
+        }
+      }
+    );
   };
 
   const handleSave = () => {
@@ -101,7 +116,10 @@ const MyPageScreen = ({
             }
             className="w-28 h-28 rounded-full mb-4 border-2 border-grey -300"
           />
-          <TouchableOpacity className="bg-gray-200 px-4 py-2 rounded-full">
+          <TouchableOpacity
+            onPress={handleImageChange}
+            className="bg-gray-200 px-4 py-2 rounded-full"
+          >
             <Text className="text-gray-700">이미지 변경</Text>
           </TouchableOpacity>
         </View>
