@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity, Animated } from "react-native";
 
-const SignUpScreen = ({ goToLogin }: { goToLogin: () => void }) => {
+const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goToTechTags: () => void }) => {
   const [username, setUsername] = useState(""); // 아이디
   const [nickname, setNickname] = useState(""); // 닉네임
   const [email, setEmail] = useState(""); // 이메일
@@ -43,7 +43,7 @@ const SignUpScreen = ({ goToLogin }: { goToLogin: () => void }) => {
       console.log("닉네임:", nickname);
       console.log("이메일:", email);
       console.log("비밀번호:", password);
-      goToLogin();
+      goToTechTags(); // 기술 태그 화면으로 이동
     } else {
       console.log("모든 필드를 입력해주세요.");
     }

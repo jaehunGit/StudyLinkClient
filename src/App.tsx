@@ -10,6 +10,7 @@ import TeamDetailScreen from "./screens/TeamDetailScreen";
 import TeamRecruitScreen from "./screens/TeamRecruitScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import BottomNavBar from "./components/BottomNavBar";
+import TechTagsScreen from "./screens/TechTagsScreen";
 
 type TeamDataItem = {
   id: string;
@@ -31,7 +32,15 @@ export default function App() {
   // 현재 화면 렌더링
   const renderScreen = () => {
     if (currentScreen === "SignUp") {
-      return <SignUpScreen goToLogin={() => setCurrentScreen("Login")} />;
+      return <SignUpScreen goToLogin={() => setCurrentScreen("Login")} goToTechTags={() => setCurrentScreen("TechTags")} />;
+    }
+  
+    if (currentScreen === "TechTags") {
+      return (
+        <TechTagsScreen
+          onComplete={() => setCurrentScreen("Login")}
+        />
+      );
     }
 
     if (currentScreen === "Login") {
