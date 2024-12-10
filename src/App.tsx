@@ -11,6 +11,7 @@ import TeamRecruitScreen from "./screens/TeamRecruitScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import BottomNavBar from "./components/BottomNavBar";
 import TechTagsScreen from "./screens/TechTagsScreen";
+import MyPageScreen from "./screens/MyPageScreen";
 
 type TeamDataItem = {
   id: string;
@@ -32,13 +33,18 @@ export default function App() {
   // 현재 화면 렌더링
   const renderScreen = () => {
     if (currentScreen === "SignUp") {
-      return <SignUpScreen goToLogin={() => setCurrentScreen("Login")} goToTechTags={() => setCurrentScreen("TechTags")} />;
+      return (
+        <SignUpScreen
+          goToLogin={() => setCurrentScreen("Login")}
+          goToTechTags={() => setCurrentScreen("TechTags")}
+        />
+      );
     }
-  
+
     if (currentScreen === "TechTags") {
       return (
         <TechTagsScreen
-          onComplete={() => setCurrentScreen("Login")}
+          onComplete={() => setCurrentScreen("Login")} // TechTags 완료 후 로그인 화면으로 이동
         />
       );
     }
@@ -51,6 +57,23 @@ export default function App() {
             setCurrentScreen("Main");
           }}
           goToSignUp={() => setCurrentScreen("SignUp")}
+        />
+      );
+    }
+
+    if (currentScreen === "Main") {
+      return (
+        <MainScreen
+          goToMyPage={() => setCurrentScreen("MyPage")} // 마이페이지로 이동
+        />
+      );
+    }
+
+    if (currentScreen === "MyPage") {
+      return (
+        <MyPageScreen
+          onBack={() => setCurrentScreen("Main")}
+          onSave={() => setCurrentScreen("Main")}
         />
       );
     }
@@ -71,7 +94,9 @@ export default function App() {
 
       switch (activeTab) {
         case "Home":
-          return <MainScreen />;
+          return (
+            <MainScreen goToMyPage={() => setCurrentScreen("MyPage")} />
+          );
         case "Team":
           return (
             <TeamScreen
@@ -86,7 +111,9 @@ export default function App() {
         case "Settings":
           return <SettingsScreen />;
         default:
-          return <MainScreen />;
+          return (
+            <MainScreen goToMyPage={() => setCurrentScreen("MyPage")} />
+          );
       }
     }
 
@@ -96,7 +123,8 @@ export default function App() {
   return (
     <View className="flex-1">
       <View className="flex-1">{renderScreen()}</View>
-      {isLoggedIn && (
+      {isLoggedIn && currentScreen !== "MyPage" && (
+        // 마이페이지에서는 하단 네비바 비활성화
         <BottomNavBar activeTab={activeTab} setActiveTab={setActiveTab} />
       )}
     </View>

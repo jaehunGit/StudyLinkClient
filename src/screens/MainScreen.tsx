@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, View, Text, TouchableOpacity, Image } from "react-native";
 
-const MainScreen = () => {
+const MainScreen = ({ goToMyPage }: { goToMyPage: () => void }) => {
   return (
     <View className="flex-1 bg-gray-100">
       <ScrollView className="px-4" contentContainerStyle={{ paddingBottom: 80 }} >
@@ -61,7 +61,9 @@ const MainScreen = () => {
               어서오세요, <Text className="text-black">정재훈님!</Text>
             </Text>
           </View>
-          <TouchableOpacity className="bg-primary px-4 py-2 rounded-lg mt-4">
+          <TouchableOpacity
+            className="bg-primary px-4 py-2 rounded-lg mt-4"
+            onPress={goToMyPage}>
             <Text className="text-white text-center">프로필 수정</Text>
           </TouchableOpacity>
         </View>
