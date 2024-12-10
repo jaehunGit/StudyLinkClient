@@ -1,27 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image  } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 
-const LoginScreen = ({ onLogin }: { onLogin: () => void }) => {
-  const [username, setUsername] = useState(""); // 아이디 입력값 상태
-  const [password, setPassword] = useState(""); // 비밀번호 입력값 상태
+const LoginScreen = ({
+  onLogin,
+  goToSignUp,
+}: {
+  onLogin: () => void;
+  goToSignUp: () => void;
+}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     if (username.trim() !== "" && password.trim() !== "") {
       console.log("아이디:", username);
       console.log("비밀번호:", password);
       onLogin();
-      // 이후 서버 연결시 수정
     } else {
       console.log("아이디와 비밀번호를 모두 입력해주세요.");
     }
-  };
-
-  const handleKakaoLogin = () => {
-    console.log("카카오");
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("구글");
   };
 
   return (
@@ -58,28 +55,9 @@ const LoginScreen = ({ onLogin }: { onLogin: () => void }) => {
       </TouchableOpacity>
 
       {/* 회원가입 링크 */}
-      <TouchableOpacity className="mt-4">
+      <TouchableOpacity className="mt-4" onPress={goToSignUp}>
         <Text className="text-primary">회원가입하기</Text>
       </TouchableOpacity>
-
-      {/* 소셜 로그인 버튼 */}
-      <View className="mt-6 flex-row justify-between">
-        {/* 카카오 로그인 */}
-        <TouchableOpacity onPress={handleKakaoLogin} className="mr-4">
-          <Image
-            source={require("../assets/images/kakao_icon.png")}
-            style={{ width: 50, height: 50 }}
-          />
-        </TouchableOpacity>
-
-        {/* 구글 로그인 */}
-        <TouchableOpacity onPress={handleGoogleLogin}>
-          <Image
-            source={require("../assets/images/google_icon.png")}
-            style={{ width: 50, height: 50 }}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

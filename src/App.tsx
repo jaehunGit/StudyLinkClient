@@ -8,6 +8,7 @@ import AllPostsScreen from "./screens/AllPostsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import TeamDetailScreen from "./screens/TeamDetailScreen";
 import TeamRecruitScreen from "./screens/TeamRecruitScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 import BottomNavBar from "./components/BottomNavBar";
 
 type TeamDataItem = {
@@ -20,51 +21,75 @@ type TeamDataItem = {
 };
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeTab, setActiveTab] = useState("Home");
-  const [selectedDetail, setSelectedDetail] = useState<TeamDataItem | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부
+  const [activeTab, setActiveTab] = useState("Home"); // 현재 탭
+  const [selectedDetail, setSelectedDetail] = useState<TeamDataItem | null>(
+    null
+  ); // 선택된 팀 데이터
+  const [currentScreen, setCurrentScreen] = useState("Login"); // 현재 화면
 
+  // 현재 화면 렌더링
   const renderScreen = () => {
-    if (activeTab === "TeamDetail" && selectedDetail) {
+    if (currentScreen === "SignUp") {
+      return <SignUpScreen goToLogin={() => setCurrentScreen("Login")} />;
+    }
+
+    if (currentScreen === "Login") {
       return (
-        <TeamDetailScreen
-          detail={selectedDetail}
-          setActiveTab={setActiveTab}
+        <LoginScreen
+          onLogin={() => {
+            setIsLoggedIn(true);
+            setCurrentScreen("Main");
+          }}
+          goToSignUp={() => setCurrentScreen("SignUp")}
         />
       );
     }
 
-    if (activeTab === "TeamRecruit") {
-      return <TeamRecruitScreen setActiveTab={setActiveTab} />;
-    }
-
-    switch (activeTab) {
-      case "Home":
-        return <MainScreen />;
-      case "Team":
+    if (isLoggedIn) {
+      if (activeTab === "TeamDetail" && selectedDetail) {
         return (
-          <TeamScreen
+          <TeamDetailScreen
+            detail={selectedDetail}
             setActiveTab={setActiveTab}
-            setSelectedDetail={setSelectedDetail}
           />
         );
-      case "Stats":
-        return <StatsScreen />;
-      case "AllPosts":
-        return <AllPostsScreen />;
-      case "Settings":
-        return <SettingsScreen />;
-      default:
-        return <MainScreen />;
+      }
+
+      if (activeTab === "TeamRecruit") {
+        return <TeamRecruitScreen setActiveTab={setActiveTab} />;
+      }
+
+      switch (activeTab) {
+        case "Home":
+          return <MainScreen />;
+        case "Team":
+          return (
+            <TeamScreen
+              setActiveTab={setActiveTab}
+              setSelectedDetail={setSelectedDetail}
+            />
+          );
+        case "Stats":
+          return <StatsScreen />;
+        case "AllPosts":
+          return <AllPostsScreen />;
+        case "Settings":
+          return <SettingsScreen />;
+        default:
+          return <MainScreen />;
+      }
     }
+
+    return null; // 기본값
   };
 
-  return isLoggedIn ? (
+  return (
     <View className="flex-1">
       <View className="flex-1">{renderScreen()}</View>
-      <BottomNavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {isLoggedIn && (
+        <BottomNavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+      )}
     </View>
-  ) : (
-    <LoginScreen onLogin={() => setIsLoggedIn(true)} />
   );
 }
