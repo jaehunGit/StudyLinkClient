@@ -40,22 +40,22 @@ const StatsScreen = ({ activeTab, setActiveTab }: StatsScreenProps) => {
 
   const filteredData = barChartData.find(
     (data) => data.month === `${selectedYear}-${selectedMonth}`
-  );
+  ) as { month: string; React: number; Java: number; Python: number } | undefined;
 
-  const yearFlatListRef = useRef(null);
-  const monthFlatListRef = useRef(null);
+  const yearFlatListRef = useRef<FlatList<string>>(null);
+  const monthFlatListRef = useRef<FlatList<string>>(null);
 
   useEffect(() => {
     if (isPickerVisible) {
-      const yearIndex = years.indexOf(tempYear);
-      const monthIndex = months.indexOf(tempMonth);
-      yearFlatListRef.current?.scrollToIndex({ index: Math.max(0, yearIndex - 1), animated: false });
-      monthFlatListRef.current?.scrollToIndex({ index: Math.max(0, monthIndex - 1), animated: false });
+        const yearIndex = years.indexOf(tempYear);
+        const monthIndex = months.indexOf(tempMonth);
+        yearFlatListRef.current?.scrollToIndex({ index: Math.max(0, yearIndex - 1), animated: false });
+        monthFlatListRef.current?.scrollToIndex({ index: Math.max(0, monthIndex - 1), animated: false });
     }
   }, [isPickerVisible]);
 
   const renderPickerModal = () => {
-    const renderYearItem = ({ item }) => (
+    const renderYearItem = ({ item }: { item: string }) => (
       <TouchableOpacity
         className="py-2"
         onPress={() => setTempYear(item)}
@@ -72,7 +72,7 @@ const StatsScreen = ({ activeTab, setActiveTab }: StatsScreenProps) => {
       </TouchableOpacity>
     );
 
-    const renderMonthItem = ({ item }) => (
+    const renderMonthItem = ({ item }: { item: string }) => (
       <TouchableOpacity
         className="py-2"
         onPress={() => setTempMonth(item)}
@@ -179,9 +179,12 @@ const StatsScreen = ({ activeTab, setActiveTab }: StatsScreenProps) => {
         <View className="flex-row items-end justify-around h-52 bg-white rounded-lg p-2">
           {filteredData ? (
             Object.keys(colors).map((tag) => (
-              <View key={tag} className="items-center">
+            <View key={tag} className="items-center">
                 <View
-                  style={{ height: filteredData[tag] * 2, backgroundColor: colors[tag] }}
+                  style={{
+                    height: (filteredData[tag as keyof typeof colors] || 0) * 2,
+                    backgroundColor: colors[tag as keyof typeof colors]
+                  }}
                   className="w-5 mx-1"
                 />
                 <Text className="text-sm mt-1">{tag}</Text>
@@ -195,7 +198,7 @@ const StatsScreen = ({ activeTab, setActiveTab }: StatsScreenProps) => {
           {Object.keys(colors).map((tag) => (
             <View key={tag} className="flex-row items-center">
               <View
-                style={{ backgroundColor: colors[tag] }}
+                style={{ backgroundColor: colors[tag as keyof typeof colors] }}
                 className="w-4 h-4 mr-2"
               />
               <Text className="text-sm">{tag}</Text>
