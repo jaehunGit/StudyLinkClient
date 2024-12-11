@@ -90,7 +90,7 @@ const StatsScreen = ({ activeTab, setActiveTab }: StatsScreenProps) => {
     );
 
     return (
-      <Modal transparent visible={isPickerVisible} animationType="slide">
+      <Modal transparent visible={isPickerVisible} animationType="fade">
         <View className="flex-1 justify-center items-center bg-black/50">
           <View
             className="bg-white p-4 w-4/5 rounded-lg"
