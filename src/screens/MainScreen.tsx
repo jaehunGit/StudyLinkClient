@@ -6,7 +6,7 @@ const MainScreen = ({ goToMyPage }: { goToMyPage: () => void }) => {
     <View className="flex-1 bg-gray-100">
       <ScrollView className="px-4" contentContainerStyle={{ paddingBottom: 80 }} >
          {/* 헤더 */}
-        <View className="flex-row justify-between items-center px-4 mt-4 mb-6">
+        <View className="flex-row justify-between items-center px-2 mt-4 mb-6">
           <Text className="text-primary text-2xl font-bold">StudyLink</Text>
           <TouchableOpacity>
             {/* 알림 배지 */}
