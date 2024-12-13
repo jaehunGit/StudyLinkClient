@@ -4,7 +4,7 @@ import LoginScreen from "./screens/LoginScreen";
 import MainScreen from "./screens/MainScreen";
 import TeamScreen from "./screens/TeamScreen";
 import StatsScreen from "./screens/StatsScreen";
-import AllPostsScreen from "./screens/AllPostsScreen";
+import AllMenuScreen from "./screens/AllMenuScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import TeamDetailScreen from "./screens/TeamDetailScreen";
 import TeamRecruitScreen from "./screens/TeamRecruitScreen";
@@ -84,7 +84,7 @@ export default function App() {
       case "Stats":
         return <StatsScreen />;
       case "AllPosts":
-        return <AllPostsScreen />;
+        return <AllMenuScreen />;
       case "Settings":
         return <SettingsScreen />;
       case "TeamDetail":
