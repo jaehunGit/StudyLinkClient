@@ -25,6 +25,7 @@ type TeamDataItem = {
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState("Home");
+  const [activeScreen, setActiveScreen] = useState<string>("Home");
   const [selectedDetail, setSelectedDetail] = useState<TeamDataItem | null>(null);
   const [currentScreen, setCurrentScreen] = useState("Login");
 
@@ -83,8 +84,18 @@ export default function App() {
         );
       case "Stats":
         return <StatsScreen />;
-      case "AllPosts":
-        return <AllMenuScreen />;
+        case "AllPosts":
+          return (
+            <AllMenuScreen
+              goToPage={(page) => {
+                if (page === "MyPage") {
+                  setCurrentScreen("MyPage");
+                } else {
+                  setActiveTab(page);
+                }
+              }}
+            />
+          );
       case "Settings":
         return <SettingsScreen />;
       case "TeamDetail":
