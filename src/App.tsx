@@ -30,19 +30,28 @@ export default function App() {
     null,
   );
   const [currentScreen, setCurrentScreen] = useState('Login');
+  const [userId, setUserId] = useState<string | null>(null);
 
   const renderScreen = () => {
     if (currentScreen === 'SignUp') {
       return (
         <SignUpScreen
           goToLogin={() => setCurrentScreen('Login')}
-          goToTechTags={() => setCurrentScreen('TechTags')}
+          goToTechTags={(id: string) => {
+            setUserId(id);
+            setCurrentScreen('TechTags');
+          }}
         />
       );
     }
 
-    if (currentScreen === 'TechTags') {
-      return <TechTagsScreen onComplete={() => setCurrentScreen('Login')} />;
+    if (currentScreen === 'TechTags' && userId) {
+      return (
+        <TechTagsScreen
+          userId={userId}
+          onComplete={() => setCurrentScreen('Main')}
+        />
+      );
     }
 
     if (currentScreen === 'Login') {

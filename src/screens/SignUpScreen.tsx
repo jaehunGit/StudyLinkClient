@@ -8,12 +8,12 @@ const SignUpScreen = ({
   goToTechTags,
 }: {
   goToLogin: () => void;
-  goToTechTags: () => void;
+  goToTechTags: (userId: string) => void;
 }) => {
-  const [username, setUsername] = useState(''); // 아이디
-  const [nickname, setNickname] = useState(''); // 닉네임
-  const [email, setEmail] = useState(''); // 이메일
-  const [password, setPassword] = useState(''); // 비밀번호
+  const [username, setUsername] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const messages = [
     '당신의 팀원을 쉽게 찾으세요',
@@ -73,7 +73,8 @@ const SignUpScreen = ({
 
       if (response.status === 200) {
         console.log('회원가입 성공:', response.data);
-        goToTechTags(); // 기술 태그 화면으로 이동
+        const userId = username;
+        goToTechTags(userId);
       } else {
         console.log('회원가입 실패:', response.data.message);
       }
