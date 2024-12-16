@@ -1,17 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, TouchableOpacity, Animated } from "react-native";
+import React, {useState, useEffect, useRef} from 'react';
+import {View, Text, TextInput, TouchableOpacity, Animated} from 'react-native';
+import axios from 'axios';
+import config from '../config';
 
-const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goToTechTags: () => void }) => {
-  const [username, setUsername] = useState(""); // 아이디
-  const [nickname, setNickname] = useState(""); // 닉네임
-  const [email, setEmail] = useState(""); // 이메일
-  const [password, setPassword] = useState(""); // 비밀번호
+const SignUpScreen = ({
+  goToLogin,
+  goToTechTags,
+}: {
+  goToLogin: () => void;
+  goToTechTags: () => void;
+}) => {
+  const [username, setUsername] = useState(''); // 아이디
+  const [nickname, setNickname] = useState(''); // 닉네임
+  const [email, setEmail] = useState(''); // 이메일
+  const [password, setPassword] = useState(''); // 비밀번호
 
   const messages = [
-    "당신의 팀원을 쉽게 찾으세요",
-    "함께 목표를 정하고 달성하세요",
-    "팀워크로 성장을 경험하세요",
-    "함께 배우고 성장하세요"
+    '당신의 팀원을 쉽게 찾으세요',
+    '함께 목표를 정하고 달성하세요',
+    '팀워크로 성장을 경험하세요',
+    '함께 배우고 성장하세요',
   ];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -24,10 +32,10 @@ const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goTo
         duration: 600,
         useNativeDriver: true,
       }).start(() => {
-        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+        setCurrentMessageIndex(prevIndex => (prevIndex + 1) % messages.length);
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 600, 
+          duration: 600,
           useNativeDriver: true,
         }).start();
       });
@@ -36,16 +44,42 @@ const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goTo
     return () => clearInterval(interval);
   }, [fadeAnim]);
 
-  const handleSignUp = () => {
-    if (username && nickname && email && password) {
-      console.log("회원가입 성공");
-      console.log("아이디:", username);
-      console.log("닉네임:", nickname);
-      console.log("이메일:", email);
-      console.log("비밀번호:", password);
-      goToTechTags(); // 기술 태그 화면으로 이동
-    } else {
-      console.log("모든 필드를 입력해주세요.");
+  const handleSignUp = async () => {
+    if (
+      username.trim() === '' ||
+      email.trim() === '' ||
+      password.trim() === ''
+    ) {
+      console.log('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    const userData = {
+      userId: username,
+      userPassword: password,
+      userEmail: email,
+    };
+
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/user/signUp`,
+        userData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 5000,
+        },
+      );
+
+      if (response.status === 200) {
+        console.log('회원가입 성공:', response.data);
+        goToTechTags(); // 기술 태그 화면으로 이동
+      } else {
+        console.log('회원가입 실패:', response.data.message);
+      }
+    } catch (error) {
+      console.error('회원가입 실패:', error.response?.data || error.message);
     }
   };
 
@@ -59,10 +93,9 @@ const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goTo
         style={{
           opacity: fadeAnim,
           fontSize: 16,
-          color: "#888",
+          color: '#888',
           marginBottom: 20,
-        }}
-      >
+        }}>
         {messages[currentMessageIndex]}
       </Animated.Text>
 
@@ -102,8 +135,7 @@ const SignUpScreen = ({ goToLogin, goToTechTags }: { goToLogin: () => void; goTo
       {/* 회원가입 버튼 */}
       <TouchableOpacity
         className="w-full h-12 bg-primary rounded-lg justify-center items-center"
-        onPress={handleSignUp}
-      >
+        onPress={handleSignUp}>
         <Text className="text-background text-lg font-bold">회원가입</Text>
       </TouchableOpacity>
 
