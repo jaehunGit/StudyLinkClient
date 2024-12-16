@@ -1,79 +1,51 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# StudyLink
 
-# Getting Started
+**StudyLink**는 스터디 그룹이나 프로젝트 팀원을 구하는 공고를 올리고, 팀을 구하고 싶은 사용자가 공고에 신청할 수 있는 애플리케이션입니다. 사용자는 간단한 회원가입 및 로그인을 통해 공고를 작성하거나 다른 사용자의 공고에 지원할 수 있습니다.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+## 주요 기능
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+### 1. 회원가입 / 로그인
+- **회원가입**:
+  - 아이디, 비밀번호 형식 검증.
+  - 비밀번호 확인 필드.
+  - 이메일로 인증번호 전송 기능. (**구현 예정**)
+- **로그인**:
+  - 일반 로그인 (아이디/비밀번호).
+  - 카카오 로그인 또는 구글 로그인 지원. (**개발 중**)
 
-To start Metro, run the following command from the _root_ of your React Native project:
+### 2. 마이페이지
+- **프로필 관리**:
+  - 아이디는 변경 불가.
+  - 비밀번호와 닉네임 변경 가능.
+  - 프로필 이미지 업로드 기능 (미등록 시 디폴트 이미지 사용). (**구현 예정**)
+- **자기소개 등록**:
+  - 보유 기술, 포트폴리오(GitHub 링크 등)를 등록 가능. (**구현 예정**)
 
-```bash
-# using npm
-npm start
+### 3. 스터디 및 프로젝트 공고 게시판
+- **게시판 형식**:
+  - 공고는 카드형식으로 표시 및 무한 스크롤
+  - 공고를 클릭하면 상세 내용으로 이동.
+- **공고 내용**:
+  - 제목, 구하는 기간.
+  - 상세 내용.
+  - 태그 기능 ( React, Java, Ruby 등 선택 가능).
 
-# OR using Yarn
-yarn start
-```
+### 4. 공고 신청 및 연결
+- 관심 있는 공고에 신청 버튼을 눌러 간단한 메시지와 함께 신청 가능. 
+- 공고 작성자가 신청자의 프로필을 검토한 뒤, 특정 사용자와 1:1 메시지 방 생성. (**구현 예정**)
 
-## Step 2: Start your Application
+### 5. 1:1 채팅방
+- 공고 작성자와 지원자 간의 실시간 1:1 메시지 기능 제공. (**구현 예정**)
+- 
+---
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## 기술 스택
 
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- **React Native**: 네이티브 모바일 앱 개발을 위한 프레임워크
+- **TypeScript**: 타입 안정성을 제공하는 자바스크립트 슈퍼셋
+- **TailwindCSS**: 유틸리티 기반의 CSS 프레임워크
+- **Axios**: API 요청 처리를 위한 HTTP 클라이언트
+- **React Native Vector Icons**: 아이콘 사용을 위한 라이브러리
+- **React Native Image Picker**: 이미지 업로드 및 선택 기능 제공
