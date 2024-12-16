@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Animated} from 'react-native';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import config from '../config';
 
 const SignUpScreen = ({
@@ -24,7 +24,6 @@ const SignUpScreen = ({
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
-  // 텍스트 전환 애니메이션
   useEffect(() => {
     const interval = setInterval(() => {
       Animated.timing(fadeAnim, {
@@ -79,7 +78,8 @@ const SignUpScreen = ({
         console.log('회원가입 실패:', response.data.message);
       }
     } catch (error) {
-      console.error('회원가입 실패:', error.response?.data || error.message);
+      const err = error as AxiosError;
+      console.error('회원가입 실패:', err.response?.data || err.message);
     }
   };
 
