@@ -12,6 +12,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import BottomNavBar from './components/BottomNavBar';
 import TechTagsScreen from './screens/TechTagsScreen';
 import MyPageScreen from './screens/MyPageScreen';
+import MyPageMainScreen from './screens/MyPageMainScreen';
 
 type TeamDataItem = {
   id: string;
@@ -25,12 +26,19 @@ type TeamDataItem = {
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState('Home');
-  const [activeScreen, setActiveScreen] = useState<string>('Home');
   const [selectedDetail, setSelectedDetail] = useState<TeamDataItem | null>(
     null,
   );
   const [currentScreen, setCurrentScreen] = useState('Login');
   const [userId, setUserId] = useState<string | null>(null);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    if (tab === 'Home') setCurrentScreen('Main');
+    else if (tab === 'Team') setCurrentScreen('Main');
+    else if (tab === 'Stats') setCurrentScreen('Main');
+    else if (tab === 'AllPosts') setCurrentScreen('Main');
+  };
 
   const renderScreen = () => {
     if (currentScreen === 'SignUp') {
@@ -66,11 +74,17 @@ export default function App() {
       );
     }
 
+    if (currentScreen === 'MyPageMain') {
+      return (
+        <MyPageMainScreen goToProfileEdit={() => setCurrentScreen('MyPage')} />
+      );
+    }
+
     if (currentScreen === 'MyPage') {
       return (
         <MyPageScreen
-          onBack={() => setCurrentScreen('Main')}
-          onSave={() => setCurrentScreen('Main')}
+          onBack={() => setCurrentScreen('MyPageMain')}
+          onSave={() => setCurrentScreen('MyPageMain')}
         />
       );
     }
@@ -85,7 +99,7 @@ export default function App() {
 
     switch (activeTab) {
       case 'Home':
-        return <MainScreen goToMyPage={() => setCurrentScreen('MyPage')} />;
+        return <MainScreen goToMyPage={() => setCurrentScreen('MyPageMain')} />;
       case 'Team':
         return (
           <TeamScreen
@@ -102,7 +116,7 @@ export default function App() {
           <AllMenuScreen
             goToPage={page => {
               if (page === 'MyPage') {
-                setCurrentScreen('MyPage');
+                setCurrentScreen('MyPageMain');
               } else {
                 setActiveTab(page);
               }
@@ -122,15 +136,16 @@ export default function App() {
         }
         return null;
       default:
-        return <MainScreen goToMyPage={() => setCurrentScreen('MyPage')} />;
+        return <MainScreen goToMyPage={() => setCurrentScreen('MyPageMain')} />;
     }
   };
 
   return (
     <View className="flex-1">
       <View className="flex-1">{renderScreen()}</View>
-      {isLoggedIn && currentScreen === 'Main' && (
-        <BottomNavBar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* 네비바 표시 */}
+      {isLoggedIn && (
+        <BottomNavBar activeTab={activeTab} setActiveTab={handleTabChange} />
       )}
     </View>
   );
