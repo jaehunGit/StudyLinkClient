@@ -57,7 +57,10 @@ export default function App() {
       return (
         <TechTagsScreen
           userId={userId}
-          onComplete={() => setCurrentScreen('Main')}
+          onComplete={() => {
+            setCurrentScreen('Main');
+            setIsLoggedIn(true);
+          }}
         />
       );
     }

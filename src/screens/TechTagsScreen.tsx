@@ -100,11 +100,12 @@ const TechTagsScreen = ({
     const payload = {
       userId: userId,
       tags: tags,
+      firstCheck: true,
     };
 
     try {
-      const response = await axios.post(
-        `${config.apiUrl}/user/techTags`,
+      const response = await axios.put(
+        `${config.apiUrl}/user/updateUser`,
         payload,
         {
           headers: {
@@ -114,11 +115,14 @@ const TechTagsScreen = ({
         },
       );
 
-      console.log('태그 전송 성공:', response.data);
+      console.log('기술 태그 업데이트 성공:', response.data);
       onComplete();
     } catch (error) {
       const err = error as AxiosError;
-      console.error('태그 전송 실패:', err.response?.data || err.message);
+      console.error(
+        '기술 태그 업데이트 실패:',
+        err.response?.data || err.message,
+      );
     }
   };
 
