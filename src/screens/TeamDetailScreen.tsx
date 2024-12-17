@@ -7,6 +7,7 @@ import {
   ScrollView,
   Modal,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 type TeamDataItem = {
   id: string;
@@ -49,6 +50,8 @@ const TeamDetailScreen = ({detail, setActiveTab}: TeamDetailScreenProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selfIntroduction, setSelfIntroduction] = useState('');
   const [hasApplied, setHasApplied] = useState(false);
+  const [commentInput, setCommentInput] = useState('');
+  const [comments, setComments] = useState(dummyComments);
 
   const handleApply = () => {
     console.log({
@@ -61,6 +64,19 @@ const TeamDetailScreen = ({detail, setActiveTab}: TeamDetailScreenProps) => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const handleAddComment = () => {
+    if (commentInput.trim() !== '') {
+      console.log('댓글:', commentInput);
+      const newComment = {
+        id: Math.random().toString(),
+        author: '나', // 예시 사용자명
+        content: commentInput,
+      };
+      setComments([...comments, newComment]);
+      setCommentInput('');
+    }
   };
 
   return (
@@ -149,10 +165,24 @@ const TeamDetailScreen = ({detail, setActiveTab}: TeamDetailScreenProps) => {
               <Text className="text-gray-700 text-sm">{comment.content}</Text>
             </View>
           ))}
-          <TextInput
-            className="bg-gray-100 border border-gray-300 rounded-lg p-2 mt-2 text-sm"
-            placeholder="댓글을 입력하세요."
-          />
+          {/* 댓글 입력창 및 아이콘 */}
+          <View className="flex-row items-center border border-gray-300 rounded-lg px-2">
+            <TextInput
+              className="flex-1 p-2 text-sm text-gray-900"
+              placeholder="댓글을 입력하세요."
+              placeholderTextColor="#aaa"
+              value={commentInput}
+              onChangeText={setCommentInput}
+            />
+            <TouchableOpacity onPress={handleAddComment}>
+              <Icon
+                name="send"
+                size={20}
+                color="#84B9F3"
+                className="rotate-45"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* 비슷한 기술 스택 프로젝트 섹션 */}
