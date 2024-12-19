@@ -90,7 +90,7 @@ const TeamRecruitScreen = ({
   const submitRecruitmentPost = async () => {
     const recruitData = {
       cid: userId,
-      title,
+      title: title,
       content: description,
       posterTag: tags,
       deadLine: deadline,
