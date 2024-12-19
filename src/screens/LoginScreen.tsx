@@ -7,7 +7,7 @@ const LoginScreen = ({
   onLogin,
   goToSignUp,
 }: {
-  onLogin: () => void;
+  onLogin: (id: string) => void;
   goToSignUp: () => void;
 }) => {
   const [username, setUsername] = useState('');
@@ -32,7 +32,9 @@ const LoginScreen = ({
 
       if (response.data.success) {
         console.log('로그인 성공:', response.data);
-        onLogin();
+
+        onLogin(username);
+
         setErrorMessage(null);
       } else {
         console.log('로그인 실패:', response.data.message);

@@ -68,7 +68,8 @@ export default function App() {
     if (currentScreen === 'Login') {
       return (
         <LoginScreen
-          onLogin={() => {
+          onLogin={(id: string) => {
+            setUserId(id);
             setIsLoggedIn(true);
             setCurrentScreen('Main');
           }}
