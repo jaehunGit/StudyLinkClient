@@ -191,8 +191,15 @@ const TechTagsScreen = ({
       {/* 완료 버튼 */}
       <TouchableOpacity
         className="w-full h-12 bg-primary rounded-lg justify-center items-center mt-6"
+        activeOpacity={0.7}
         onPress={handleComplete}>
         <Text className="text-white text-lg font-bold">완료</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => { onComplete(); }}
+        className="mt-4 px-4 py-2 self-center">
+        <Text className="text-gray-400 text-sm hover:text-gray-600">다음에 작성할래요</Text>
       </TouchableOpacity>
     </View>
   );

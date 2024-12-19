@@ -1,21 +1,25 @@
 import React, {useState} from 'react';
 import {ScrollView, View, Text, TouchableOpacity, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 const MainScreen = ({goToMyPage}: {goToMyPage: () => void}) => {
+  const notificationCount = 99;
   return (
     <View className="flex-1 bg-gray-100">
       <ScrollView className="px-4" contentContainerStyle={{paddingBottom: 80}}>
         {/* 헤더 */}
         <View className="flex-row justify-between items-center px-2 mt-4 mb-6">
           <Text className="text-primary text-2xl font-bold">StudyLink</Text>
-          <TouchableOpacity>
-            {/* 알림 배지 */}
-            <View>
-              <Text className="text-primary text-lg">🔔</Text>
-              <View className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full justify-center items-center">
-                <Text className="text-white text-xs">3</Text>
+          <TouchableOpacity className="relative">
+            {/* 알림 종 아이콘 */}
+            <Icon name="bell" size={28} color="#000000" />
+            {notificationCount > 0 && (
+              <View className="absolute -top-2 -right-2 bg-red-500 rounded-full h-6 w-6 flex justify-center items-center">
+                <Text className="text-white text-xs font-bold">
+                  {notificationCount > 99 ? '99+' : notificationCount}
+                </Text>
               </View>
-            </View>
+            )}
           </TouchableOpacity>
         </View>
         {/* 태그 사용 통계 */}
