@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import axios, { AxiosError } from 'axios';
+import React, {useState, useEffect, useRef} from 'react';
+import {View, Text, TextInput, TouchableOpacity, Animated} from 'react-native';
+import axios, {AxiosError} from 'axios';
 import config from '../config';
 
 const SignUpScreen = ({
@@ -27,10 +27,24 @@ const SignUpScreen = ({
     '함께 배우고 성장하세요',
   ];
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }).start(() => {
+        setCurrentMessageIndex(prevIndex => (prevIndex + 1) % messages.length);
+
+        // 페이드인
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+        }).start();
+      });
     }, 3000);
 
     return () => clearInterval(interval);
@@ -92,7 +106,7 @@ const SignUpScreen = ({
 
     try {
       const response = await axios.get(`${config.apiUrl}/user/checkUsername`, {
-        params: { username },
+        params: {userId: username},
       });
 
       if (response.data.isAvailable) {
@@ -113,7 +127,8 @@ const SignUpScreen = ({
   };
 
   const validatePassword = (input: string) => {
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     setIsPasswordValid(passwordRegex.test(input));
   };
 
@@ -123,7 +138,9 @@ const SignUpScreen = ({
       <Text className="text-primary text-4xl font-bold mb-2">StudyLink</Text>
 
       {/* 애니메이션 메시지 */}
-      <Text className="text-gray-500 text-lg mb-4">{messages[currentMessageIndex]}</Text>
+      <Text className="text-gray-500 text-lg mb-4">
+        {messages[currentMessageIndex]}
+      </Text>
 
       {/* 아이디 입력 */}
       <View className="w-full flex-row items-center mb-2">
@@ -139,7 +156,7 @@ const SignUpScreen = ({
           <Text className="text-white text-sm">중복검사</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ height: 20 }}>
+      <View style={{height: 20}}>
         {isUsernameValid === false && (
           <Text className="text-red-500 text-xs">{errorMessage}</Text>
         )}
@@ -158,14 +175,16 @@ const SignUpScreen = ({
         className="w-full h-12 border border-gray-300 rounded-lg px-3 mb-2"
         placeholder="이메일"
         value={email}
-        onChangeText={(input) => {
+        onChangeText={input => {
           setEmail(input);
           validateEmail(input);
         }}
       />
-      <View style={{ height: 20 }}>
+      <View style={{height: 20}}>
         {!isEmailValid && email !== '' && (
-          <Text className="text-red-500 text-xs">올바른 이메일 형식이 아닙니다.</Text>
+          <Text className="text-red-500 text-xs">
+            올바른 이메일 형식이 아닙니다.
+          </Text>
         )}
       </View>
 
@@ -175,12 +194,12 @@ const SignUpScreen = ({
         placeholder="비밀번호 (최소 8자, 문자와 숫자 포함)"
         secureTextEntry
         value={password}
-        onChangeText={(input) => {
+        onChangeText={input => {
           setPassword(input);
           validatePassword(input);
         }}
       />
-      <View style={{ height: 20 }}>
+      <View style={{height: 20}}>
         {!isPasswordValid && password !== '' && (
           <Text className="text-red-500 text-xs">
             비밀번호는 최소 8자, 문자, 숫자, 그리고 특수문자를 포함해야 합니다.
@@ -196,9 +215,11 @@ const SignUpScreen = ({
         value={confirmPassword}
         onChangeText={setConfirmPassword}
       />
-      <View style={{ height: 20 }}>
+      <View style={{height: 20}}>
         {password !== confirmPassword && confirmPassword !== '' && (
-          <Text className="text-red-500 text-xs">비밀번호가 일치하지 않습니다.</Text>
+          <Text className="text-red-500 text-xs">
+            비밀번호가 일치하지 않습니다.
+          </Text>
         )}
       </View>
 
