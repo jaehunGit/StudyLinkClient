@@ -138,9 +138,13 @@ const SignUpScreen = ({
       <Text className="text-primary text-4xl font-bold mb-2">StudyLink</Text>
 
       {/* 애니메이션 메시지 */}
-      <Text className="text-gray-500 text-lg mb-4">
+      <Animated.Text
+        style={{
+          opacity: fadeAnim,
+        }}
+        className="text-gray-500 text-lg mb-4">
         {messages[currentMessageIndex]}
-      </Text>
+      </Animated.Text>
 
       {/* 아이디 입력 */}
       <View className="w-full flex-row items-center mb-2">
