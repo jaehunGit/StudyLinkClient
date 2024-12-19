@@ -93,7 +93,7 @@ export default function App() {
     }
 
     if (activeTab === 'TeamRecruit') {
-      return <TeamRecruitScreen setActiveTab={setActiveTab} />;
+      return <TeamRecruitScreen setActiveTab={setActiveTab} userId={userId} />;
     }
 
     if (!isLoggedIn) {
