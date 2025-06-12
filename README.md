@@ -73,4 +73,4 @@
 ## 개발환경 설정 가이드
 
 👉 자세한 개발 환경 설정 방법은 아래 Notion 문서를 참고해주세요.  
-🔗 [StudyLink 개발 환경 설정 가이드](https://your-notion-link-here)
+🔗 [StudyLink 개발 환경 설정 가이드]((https://www.notion.so/StudyLink-51ad0785df9b44dd9a6e037398f153e1?source=copy_link))
